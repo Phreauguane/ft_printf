@@ -6,7 +6,7 @@
 /*   By: jde-meo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 17:26:02 by jde-meo           #+#    #+#             */
-/*   Updated: 2023/10/13 16:06:32 by jde-meo          ###   ########.fr       */
+/*   Updated: 2023/10/14 19:17:02 by jde-meo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	print_str(t_flags flags, char **str, const char *s)
 	free(print);
 }
 
-void	print_hex(t_flags flags, char **str, unsigned long long int i)
+void	print_hex(t_flags flags, char **str, unsigned long long i)
 {
 	char	*num;
 	char	*temp;
@@ -67,13 +67,9 @@ void	print_hex(t_flags flags, char **str, unsigned long long int i)
 		return ;
 	}
 	num = ft_strcat_malloc(NULL, "");
-	if (flags.spec == 'p' || ((flags.flags & 0b001000) != 0))
-		num = ft_strcat_malloc(num, "0x");
+	add_pre(flags, &num, i);
 	temp = ft_itoa_base(i, "0123456789abcdef", flags.spec == 'p');
-	while (flags.length > (ft_strlen(num) + ft_strlen(temp))
-		&& !(flags.flags & 0b100000) && (flags.flags & 0b010000))
-		num = ft_straddchr(num, '0');
-	num = ft_strcat_malloc(num, temp);
+	add_zer(flags, &num, temp);
 	free(temp);
 	while (num[++k] && flags.spec == 'X')
 		num[k] = ft_toupper(num[k]);
@@ -95,9 +91,9 @@ static char	*fill_string(char *itoa_out, t_flags flags, long int i)
 	out = NULL;
 	if (i < 0)
 		out = ft_straddchr(out, '-');
-	if (i >= 0 && (flags.flags & 0b000010))
+	if (i >= 0 && (flags.flags & 0b000010) && flags.spec != 'u')
 		out = ft_straddchr(out, '+');
-	else if (i >= 0 && (flags.flags & 0b000100))
+	else if (i >= 0 && (flags.flags & 0b000100) && flags.spec != 'u')
 		out = ft_straddchr(out, ' ');
 	while (numz-- > 0)
 		out = ft_straddchr(out, '0');

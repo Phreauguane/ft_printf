@@ -6,7 +6,7 @@
 /*   By: jde-meo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:09:26 by jde-meo           #+#    #+#             */
-/*   Updated: 2023/10/13 16:05:48 by jde-meo          ###   ########.fr       */
+/*   Updated: 2023/10/14 19:13:55 by jde-meo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct flags_s
 void			args_to_str(char **fmt, va_list params, char **str);
 void			print_char(t_flags flags, char **str, char c);
 void			print_str(t_flags flags, char **str, const char *s);
-void			print_hex(t_flags flags, char **str, unsigned long long int i);
+void			print_hex(t_flags flags, char **str, unsigned long long i);
 void			print_int(t_flags flags, char **str, long int i);
 int				ft_printf(const char *fmt, ...);
 int				ft_atoi(const char *nptr);
@@ -54,5 +54,7 @@ unsigned int	ft_strlcpy(char *dest, char *src, unsigned int size);
 size_t			ft_strlcat(char *dst, const char *src, size_t size);
 char			*ft_itoa_base(long long int n, char *base, int ptr);
 int				ft_toupper(int c);
+void			add_pre(t_flags flags, char **str, unsigned long long i);
+void			add_zer(t_flags flags, char **str, char *itoa_out);
 
 #endif

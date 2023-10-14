@@ -6,11 +6,37 @@
 /*   By: jde-meo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:21:42 by jde-meo           #+#    #+#             */
-/*   Updated: 2023/10/13 15:07:01 by jde-meo          ###   ########.fr       */
+/*   Updated: 2023/10/14 19:15:39 by jde-meo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+void	add_pre(t_flags flags, char **str, unsigned long long i)
+{
+	if (flags.spec == 'p' || (flags.flags & 0b001000))
+	{
+		if (flags.flags & 0b000010 && flags.spec == 'p')
+			*str = ft_straddchr(*str, '+');
+		else if (flags.flags & 0b000100 && flags.spec == 'p')
+			*str = ft_straddchr(*str, ' ');
+		*str = ft_strcat_malloc(*str, "0x");
+	}
+}
+
+void	add_zer(t_flags flags, char **str, char *itoa_out)
+{
+	int		numz;
+
+	numz = 0;
+	if (flags.precision >= 0)
+		numz = flags.precision - ft_strlen(itoa_out);
+	else if (!(flags.flags & 0b100000) && (flags.flags & 0b010000))
+		numz = flags.length - ft_strlen(itoa_out);
+	while (numz-- > 0)
+		*str = ft_straddchr(*str, '0');
+	*str = ft_strcat_malloc(*str, itoa_out);
+}
 
 int	ft_printf(const char *fmt, ...)
 {
