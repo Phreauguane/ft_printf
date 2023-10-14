@@ -6,7 +6,7 @@
 /*   By: jde-meo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:09:26 by jde-meo           #+#    #+#             */
-/*   Updated: 2023/10/14 19:13:55 by jde-meo          ###   ########.fr       */
+/*   Updated: 2023/10/14 19:26:28 by jde-meo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ unsigned int	ft_strlcpy(char *dest, char *src, unsigned int size);
 size_t			ft_strlcat(char *dst, const char *src, size_t size);
 char			*ft_itoa_base(long long int n, char *base, int ptr);
 int				ft_toupper(int c);
-void			add_pre(t_flags flags, char **str, unsigned long long i);
+void			add_pre(t_flags flags, char **str);
 void			add_zer(t_flags flags, char **str, char *itoa_out);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jde-meo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 17:26:02 by jde-meo           #+#    #+#             */
-/*   Updated: 2023/10/14 19:17:02 by jde-meo          ###   ########.fr       */
+/*   Updated: 2023/10/14 19:26:48 by jde-meo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	print_hex(t_flags flags, char **str, unsigned long long i)
 		return ;
 	}
 	num = ft_strcat_malloc(NULL, "");
-	add_pre(flags, &num, i);
+	add_pre(flags, &num);
 	temp = ft_itoa_base(i, "0123456789abcdef", flags.spec == 'p');
 	add_zer(flags, &num, temp);
 	free(temp);

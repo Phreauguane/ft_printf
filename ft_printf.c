@@ -6,13 +6,13 @@
 /*   By: jde-meo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:21:42 by jde-meo           #+#    #+#             */
-/*   Updated: 2023/10/14 19:15:39 by jde-meo          ###   ########.fr       */
+/*   Updated: 2023/10/14 19:26:32 by jde-meo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	add_pre(t_flags flags, char **str, unsigned long long i)
+void	add_pre(t_flags flags, char **str)
 {
 	if (flags.spec == 'p' || (flags.flags & 0b001000))
 	{
