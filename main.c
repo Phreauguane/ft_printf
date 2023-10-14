@@ -6,7 +6,7 @@
 /*   By: jde-meo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 16:13:32 by jde-meo           #+#    #+#             */
-/*   Updated: 2023/10/14 18:55:58 by jde-meo          ###   ########.fr       */
+/*   Updated: 2023/10/14 21:29:14 by jde-meo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,31 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <unistd.h>
-#include <stdlib.h> /* exit */
-#include <stdio.h> /* printf */
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
 char *flags = "-0# +";
+#define DEF "\033[0m"
+#define RED "\033[0;31m"
+#define GREEN "\033[0;32m"
+#define YELLOW "\033[0;33m"
+#define BLUE "\033[0;34m"
+#define PURPLE "\033[0;35m"
+#define CYAN "\033[0;36m"
+#define WHITE "\033[0;37m"
+#define BOLD_RED "\033[1;31m"
+#define BOLD_GREEN "\033[1;32m"
+#define BOLD_YELLOW "\033[1;33m"
+#define BOLD_BLUE "\033[1;34m"
+#define BOLD_PURPLE "\033[1;35m"
+#define BOLD_CYAN "\033[1;36m"
+#define BOLD_WHITE "\033[1;37m"
+#define setColor(x) printf(x)
 
 int urandom_fd = -2;
 
-void urandom_init() 
+void	urandom_init() 
 {
   urandom_fd = open("/dev/urandom", O_RDONLY);
 
@@ -51,7 +68,6 @@ unsigned long urandom()
 
 char	*gen_random_str(int size)
 {
-	urandom_init();
 	int		len = urandom() % 255;
 	if (size > 0)
 		len = size;
@@ -66,16 +82,15 @@ void	gen_random_format(char **str, char spec)
 {
 	*str = ft_straddchr(*str, '|');
 	*str = ft_straddchr(*str, '%');
-	urandom_init();
 	for (int i = 0; i < 6; i++)
 	{
 		*str = ft_straddchr(*str, flags[urandom() % 5]);
 	}
-	char *itoaout = ft_itoa_base(urandom() % 50, "0123456789", 0);
+	char *itoaout = ft_itoa_base(urandom() % 30, "0123456789", 0);
 	*str = ft_strcat_malloc(*str, itoaout);
 	free(itoaout);
 	*str = ft_straddchr(*str, '.');
-		  itoaout = ft_itoa_base(urandom() % 50, "0123456789", 0);
+		  itoaout = ft_itoa_base(urandom() % 30, "0123456789", 0);
 	*str = ft_strcat_malloc(*str, itoaout);
 	free(itoaout);
 	*str = ft_straddchr(*str, spec);
@@ -87,49 +102,72 @@ int	main(int ac, char **av)
 	int str_test = 0;
 	int ptr_test = 0;
 	int	bonus_test = 1;
+	urandom_init();
+	setColor(BOLD_CYAN);
 	if (str_test) printf("|	STR TESTS	|\n");
 	for (int i = 0; i < 5 && str_test; i++)
 	{
+		setColor(BLUE);
 		printf("Test %d\n", i + 1);
+		setColor(BOLD_WHITE);
 		char	*str = gen_random_str(0);
 		int res1 = ft_printf("%s", str);
+		setColor(BOLD_RED);
 		printf("|\n----\n");
+		setColor(BOLD_WHITE);
 		int res2 = printf("%s", str);
+		setColor(BOLD_RED);
 		printf("|\n");
-		printf("Your return value : %d\n Original return value : %d\n", res1, res2);
+		setColor(BOLD_GREEN);
+		printf("Your return value : %d\nOriginal return value : %d\n", res1, res2);
 		printf("\n=====================\n");
 		free(str);
 	}
+	setColor(BOLD_CYAN);
 	if (chr_test) printf("|	CHAR TESTS	|\n");
 	for (int i = 0; i < 4 && chr_test; i++)
 	{
+		setColor(BLUE);
 		printf("Test %d\n", i + 1);
 		urandom_init();
 		char	*s = gen_random_str(8);
+		setColor(BOLD_WHITE);
 		int res1 = ft_printf("%c%c%c%c%c%c%c%c", s[0], s[1], s[2], s[3], s[4], s[5], s[6], s[7]);
+		setColor(BOLD_RED);
 		printf("|\n----\n");
+		setColor(BOLD_WHITE);
 		int res2 = printf("%c%c%c%c%c%c%c%c", s[0], s[1], s[2], s[3], s[4], s[5], s[6], s[7]);
+		setColor(BOLD_RED);
 		printf("|\n");
-		printf("Your return value : %d\n Original return value : %d\n", res1, res2);
+		setColor(BOLD_GREEN);
+		printf("Your return value : %d\nOriginal return value : %d\n", res1, res2);
 		printf("\n=====================\n");
 		free(s);
 	}
+	setColor(BOLD_CYAN);
 	if (ptr_test) printf("|	POINTER TESTS	|\n");
 	for (int i = 0; i < 1 && ptr_test; i++)
 	{
+		setColor(BLUE);
 		printf("Test %d\n", i + 1);
 		urandom_init();
 		void	*s = gen_random_str(64);
+		setColor(BOLD_WHITE);
 		int res1 = ft_printf("%p", s);
+		setColor(BOLD_RED);
 		printf("|\n----\n");
+		setColor(BOLD_WHITE);
 		int res2 = printf("%p", s);
+		setColor(BOLD_RED);
 		printf("|\n");
-		printf("Your return value : %d\n Original return value : %d\n", res1, res2);
+		setColor(BOLD_GREEN);
+		printf("Your return value : %d\nOriginal return value : %d\n", res1, res2);
 		printf("\n=====================\n");
 		free(s);
 	}
+	setColor(BOLD_CYAN);
 	if (bonus_test) printf("|  BONUS TESTS 	|\n");
-	for (int i = 0; i < 5 && bonus_test; i++)
+	for (int i = 0; i < 255 && bonus_test; i++)
 	{
 		char *format = NULL;
 		gen_random_format(&format, 'c');
@@ -141,15 +179,49 @@ int	main(int ac, char **av)
 		gen_random_format(&format, 'x');
 		gen_random_format(&format, 'X');
 		gen_random_format(&format, '%');
-		printf("Test using format : %s\n", format);
-		urandom_init();
+		format = ft_straddchr(format, '|');
+		setColor(BOLD_WHITE);
+		printf("Test %d using format : \"%s\"\n", i + 1, format);
 		int	randomint = urandom() % 4096;
 		unsigned long long pointer = urandom() % LLONG_MAX;
-		int res1 = ft_printf(format, '4', "test ft_printf 42", pointer, randomint, -randomint, randomint - 255, randomint - 2048, randomint - 4096);
-		printf("|\n----\n");
-		int res2 = printf(format, '4', "test ft_printf 42", pointer, randomint, -randomint, randomint - 255, randomint - 2048, randomint - 4096);
-		printf("|\n");
-		printf("Your return value : %d\n Original return value : %d\n", res1, res2);
-		printf("\n=====================\n");
+
+		// store output in printf_out
+		int	stdout_bk = dup(fileno(stdout));
+		int	pipefd[2];
+		pipe(pipefd);
+		// REDIRECT STDOUT TO PIPE ===========
+		dup2(pipefd[1], fileno(stdout));
+		int res1 = printf(format, '4', "test ft_printf 42", pointer, randomint, -randomint, randomint - 255, randomint - 2048, randomint - 4096);
+		fflush(stdout);
+		write(pipefd[1], "\0", 1);
+		close(pipefd[1]);
+		char buffer1[res1 + 1];
+  		read(pipefd[0], buffer1, res1);
+		buffer1[res1] = '\0';
+		// RESTORE STDOUT ====================
+		dup2(stdout_bk, fileno(stdout));
+		
+		pipe(pipefd);
+		// REDIRECT STDOUT TO PIPE ===========
+		dup2(pipefd[1], fileno(stdout));
+		int res2 = ft_printf(format, '4', "test ft_printf 42", pointer, randomint, -randomint, randomint - 255, randomint - 2048, randomint - 4096);
+		fflush(stdout);
+		write(pipefd[1], "\0", 1);
+		close(pipefd[1]);
+		char buffer2[res2 + 1];
+  		read(pipefd[0], buffer2, res2);
+		buffer2[res2] = '\0';
+		// RESTORE STDOUT ====================
+		dup2(stdout_bk, fileno(stdout));
+		
+		if (res1 == res2 && strcmp(buffer1, buffer2) == 0)
+			setColor(BOLD_GREEN);
+		else
+			setColor(BOLD_RED);
+		printf("ft_printf printed :%s\n", buffer2);
+		printf("returning : %d\n", res2);
+		printf("   printf printed :%s\n", buffer1);
+		printf("returning : %d\n", res1);
+		sleep(0.1f);
 	}
 }
