@@ -6,7 +6,7 @@
 /*   By: jde-meo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 16:13:32 by jde-meo           #+#    #+#             */
-/*   Updated: 2023/10/14 21:29:14 by jde-meo          ###   ########.fr       */
+/*   Updated: 2023/10/15 15:12:19 by jde-meo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,68 +103,20 @@ int	main(int ac, char **av)
 	int ptr_test = 0;
 	int	bonus_test = 1;
 	urandom_init();
+	/*
+					CHAR
+	*/
 	setColor(BOLD_CYAN);
-	if (str_test) printf("|	STR TESTS	|\n");
-	for (int i = 0; i < 5 && str_test; i++)
-	{
-		setColor(BLUE);
-		printf("Test %d\n", i + 1);
-		setColor(BOLD_WHITE);
-		char	*str = gen_random_str(0);
-		int res1 = ft_printf("%s", str);
-		setColor(BOLD_RED);
-		printf("|\n----\n");
-		setColor(BOLD_WHITE);
-		int res2 = printf("%s", str);
-		setColor(BOLD_RED);
-		printf("|\n");
-		setColor(BOLD_GREEN);
-		printf("Your return value : %d\nOriginal return value : %d\n", res1, res2);
-		printf("\n=====================\n");
-		free(str);
-	}
-	setColor(BOLD_CYAN);
-	if (chr_test) printf("|	CHAR TESTS	|\n");
-	for (int i = 0; i < 4 && chr_test; i++)
-	{
-		setColor(BLUE);
-		printf("Test %d\n", i + 1);
-		urandom_init();
-		char	*s = gen_random_str(8);
-		setColor(BOLD_WHITE);
-		int res1 = ft_printf("%c%c%c%c%c%c%c%c", s[0], s[1], s[2], s[3], s[4], s[5], s[6], s[7]);
-		setColor(BOLD_RED);
-		printf("|\n----\n");
-		setColor(BOLD_WHITE);
-		int res2 = printf("%c%c%c%c%c%c%c%c", s[0], s[1], s[2], s[3], s[4], s[5], s[6], s[7]);
-		setColor(BOLD_RED);
-		printf("|\n");
-		setColor(BOLD_GREEN);
-		printf("Your return value : %d\nOriginal return value : %d\n", res1, res2);
-		printf("\n=====================\n");
-		free(s);
-	}
-	setColor(BOLD_CYAN);
-	if (ptr_test) printf("|	POINTER TESTS	|\n");
-	for (int i = 0; i < 1 && ptr_test; i++)
-	{
-		setColor(BLUE);
-		printf("Test %d\n", i + 1);
-		urandom_init();
-		void	*s = gen_random_str(64);
-		setColor(BOLD_WHITE);
-		int res1 = ft_printf("%p", s);
-		setColor(BOLD_RED);
-		printf("|\n----\n");
-		setColor(BOLD_WHITE);
-		int res2 = printf("%p", s);
-		setColor(BOLD_RED);
-		printf("|\n");
-		setColor(BOLD_GREEN);
-		printf("Your return value : %d\nOriginal return value : %d\n", res1, res2);
-		printf("\n=====================\n");
-		free(s);
-	}
+	//if (chr_test)
+	//{
+	//	
+	//}
+
+
+
+	/*
+					BONUS
+	*/
 	setColor(BOLD_CYAN);
 	if (bonus_test) printf("|  BONUS TESTS 	|\n");
 	for (int i = 0; i < 255 && bonus_test; i++)
@@ -180,8 +132,6 @@ int	main(int ac, char **av)
 		gen_random_format(&format, 'X');
 		gen_random_format(&format, '%');
 		format = ft_straddchr(format, '|');
-		setColor(BOLD_WHITE);
-		printf("Test %d using format : \"%s\"\n", i + 1, format);
 		int	randomint = urandom() % 4096;
 		unsigned long long pointer = urandom() % LLONG_MAX;
 
@@ -215,13 +165,26 @@ int	main(int ac, char **av)
 		dup2(stdout_bk, fileno(stdout));
 		
 		if (res1 == res2 && strcmp(buffer1, buffer2) == 0)
+		{
+			setColor(GREEN);
+			printf("Test %-3d ", i + 1);
 			setColor(BOLD_GREEN);
+			printf("[OK]");
+			setColor(GREEN);
+			printf(" using format : \"%s\"\n", format);
+		}
 		else
+		{
+			setColor(RED);
+			printf("Test %-3d ", i + 1);
 			setColor(BOLD_RED);
-		printf("ft_printf printed :%s\n", buffer2);
-		printf("returning : %d\n", res2);
-		printf("   printf printed :%s\n", buffer1);
-		printf("returning : %d\n", res1);
-		sleep(0.1f);
+			printf("[KO]");
+			setColor(RED);
+			printf(" using format : \"%s\"\n", format);
+			printf("ft_printf printed :%s\n", buffer2);
+			printf("returning : %d\n", res2);
+			printf("   printf printed :%s\n", buffer1);
+			printf("returning : %d\n", res1);
+		}
 	}
 }
