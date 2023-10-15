@@ -6,14 +6,15 @@
 /*   By: jde-meo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 17:26:02 by jde-meo           #+#    #+#             */
-/*   Updated: 2023/10/14 19:26:48 by jde-meo          ###   ########.fr       */
+/*   Updated: 2023/10/15 17:58:31 by jde-meo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	print_char(t_flags flags, char **str, char c)
+void	print_char(t_flags flags, char **str, char c, int *l)
 {
+	(*l)++;
 	if (flags.length <= 1)
 		*str = ft_straddchr(*str, c);
 	else
@@ -24,13 +25,14 @@ void	print_char(t_flags flags, char **str, char c)
 		{
 			*str = ft_straddchr(*str, ' ');
 			flags.length--;
+			(*l)++;
 		}
 		if ((flags.flags & 0b100000) == 0)
 			*str = ft_straddchr(*str, c);
 	}
 }
 
-void	print_str(t_flags flags, char **str, const char *s)
+void	print_str(t_flags flags, char **str, const char *s, int *l)
 {
 	int		len;
 	char	*print;
@@ -42,19 +44,21 @@ void	print_str(t_flags flags, char **str, const char *s)
 	if (flags.precision >= 0 && flags.precision < ft_strlen(print))
 		print[flags.precision] = '\0';
 	len = ft_strlen(print);
+	(*l) += len;
 	if ((flags.flags & 0b100000) != 0)
 		*str = ft_strcat_malloc(*str, print);
 	while (flags.length - len > 0)
 	{
 		*str = ft_straddchr(*str, ' ');
 		flags.length--;
+		(*l)++;
 	}
 	if ((flags.flags & 0b100000) == 0)
 		*str = ft_strcat_malloc(*str, print);
 	free(print);
 }
 
-void	print_hex(t_flags flags, char **str, unsigned long long i)
+void	print_hex(t_flags flags, char **str, unsigned long long i, int *l)
 {
 	char	*num;
 	char	*temp;
@@ -63,18 +67,18 @@ void	print_hex(t_flags flags, char **str, unsigned long long i)
 	k = -1;
 	if (flags.spec == 'p' && i == 0)
 	{
-		print_str(flags, str, "(nil)");
+		print_str(flags, str, "(nil)", l);
 		return ;
 	}
 	num = ft_strcat_malloc(NULL, "");
-	add_pre(flags, &num);
+	add_pre(flags, &num, i);
 	temp = ft_itoa_base(i, "0123456789abcdef", flags.spec == 'p');
 	add_zer(flags, &num, temp);
 	free(temp);
 	while (num[++k] && flags.spec == 'X')
 		num[k] = ft_toupper(num[k]);
 	flags.precision = -1;
-	print_str(flags, str, num);
+	print_str(flags, str, num, l);
 	free(num);
 }
 
@@ -101,15 +105,18 @@ static char	*fill_string(char *itoa_out, t_flags flags, long int i)
 	return (out);
 }
 
-void	print_int(t_flags flags, char **str, long int i)
+void	print_int(t_flags flags, char **str, long int i, int *l)
 {
 	char	*num;
 	char	*temp;
 
 	temp = ft_itoa_base(i, "0123456789", 0);
-	num = fill_string(temp, flags, i);
+	if (i != 0 || flags.precision != 0)
+		num = fill_string(temp, flags, i);
+	else
+		num = ft_straddchr(NULL, '\0');
 	flags.precision = -1;
-	print_str(flags, str, num);
+	print_str(flags, str, num, l);
 	free(temp);
 	free(num);
 }
