@@ -31,9 +31,6 @@ all : $(NAME)
 $(NAME) : $(OBJ)
 	ar rc $(NAME) $(OBJ)
 
-tests :
-	$(CC) *.c -o tests.out
-
 clean :
 	rm -f $(OBJ)
 
