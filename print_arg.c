@@ -6,7 +6,7 @@
 /*   By: jde-meo <jde-meo@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 17:26:02 by jde-meo           #+#    #+#             */
-/*   Updated: 2023/10/16 17:44:15 by jde-meo          ###   ########.fr       */
+/*   Updated: 2023/10/17 14:03:43 by jde-meo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,6 @@ void	print_char(t_flags flags, char **str, char c, int *l)
 		}
 		if ((flags.flags & 0b100000) == 0)
 			*str = ft_straddchr(*str, c);
-	}
-	if (c == '\0')
-	{
-		if (*str)
-		{
-			ft_putstr_fd(*str, 1);
-			free(*str);
-			*str = NULL;
-		}
-		write(1, "\0", 1);
 	}
 }
 
