@@ -30,6 +30,16 @@ void	print_char(t_flags flags, char **str, char c, int *l)
 		if ((flags.flags & 0b100000) == 0)
 			*str = ft_straddchr(*str, c);
 	}
+	if (c == '\0')
+	{
+		if (*str)
+		{
+			ft_putstr_fd(*str, 1);
+			free(*str);
+			*str = NULL;
+		}
+		write(1, "\0", 1);
+	}
 }
 
 void	print_str(t_flags flags, char **str, const char *s, int *l)
